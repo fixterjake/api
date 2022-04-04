@@ -1,0 +1,6 @@
+{
+    "python.defaultInterpreterPath": "venv/bin/python",
+    "python.formatting.provider": "autopep8",
+    "python.linting.flake8Enabled": true,
+    "editor.formatOnSave": true
+}

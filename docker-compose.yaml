@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+  api:
+    build: .
+    container_name: api
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: "postgresql://postgres:qwerty123@database:5432/api"
+    depends_on:
+      - database
+    networks:
+      - vatusa
+  migration:
+    build: .
+    container_name: migration
+    command: python -m alembic upgrade head
+    environment:
+      DATABASE_URL: "postgresql://postgres:qwerty123@database:5432/api"
+    depends_on:
+      - database
+    networks:
+      - vatusa
+  database:
+    image: postgres:14
+    container_name: database
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=qwerty123
+      - POSTGRES_DB=api
+    ports:
+      - "5400:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data/
+    networks:
+      - vatusa
+volumes:
+  postgres-data: null
+networks:
+  vatusa: null
